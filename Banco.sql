@@ -18,7 +18,7 @@ CREATE TABLE colecao.prateleira (
 
 
 CREATE TABLE colecao.item (
-  idItem INT NOT NULL AUTO_INCREMENT,
+  idItem INT NOT NULL UNIQUE,
   nome VARCHAR(45) NULL,
   n_discos INT  NOT NULL,
   midia VARCHAR(45) NULL,
@@ -31,7 +31,7 @@ CREATE TABLE colecao.item (
 
 CREATE TABLE colecao.documentarios (
   item_idItem INT NOT NULL,
-  ano YEAR NULL,
+  ano VARCHAR(4) NULL,
   PRIMARY KEY (item_idItem),
   FOREIGN KEY (item_idItem) REFERENCES colecao.item (idItem)
   ON DELETE SET NULL ON UPDATE CASCADE
@@ -40,7 +40,7 @@ CREATE TABLE colecao.documentarios (
 
 CREATE TABLE colecao.filmes (
   item_idItem INT NOT NULL,
-  ano YEAR NULL,
+  ano VARCHAR(4) NULL,
   genero VARCHAR(45) NULL,
   PRIMARY KEY (item_idItem),
   FOREIGN KEY (item_idItem) REFERENCES colecao.item (idItem)
@@ -51,7 +51,7 @@ CREATE TABLE colecao.filmes (
 CREATE TABLE colecao.series (
   item_idItem INT NOT NULL,
   genero VARCHAR(45) NULL,
-  ano_de_inicio YEAR NULL,
+  ano_de_inicio VARCHAR(4) NULL,
   PRIMARY KEY (item_idItem),
   FOREIGN KEY (item_idItem) REFERENCES colecao.item (idItem)
   ON DELETE SET NULL ON UPDATE CASCADE
@@ -60,7 +60,7 @@ CREATE TABLE colecao.series (
 
 CREATE TABLE colecao.temporadas (
   series_item_idItem INT NOT NULL,
-  ano YEAR NULL,
+  ano VARCHAR(4) NULL,
   numero INT NOT NULL,
   PRIMARY KEY (series_item_idItem),
   FOREIGN KEY (series_item_idItem) REFERENCES colecao.series (item_idItem)
@@ -151,7 +151,7 @@ CREATE TABLE colecao.produz (
 CREATE TABLE colecao.premios (
   idpremios INT NOT NULL,
   nome VARCHAR(45) NULL,
-  ano YEAR NOT NULL,
+  ano VARCHAR(4) NOT NULL,
   pessoa_idpessoa INT NULL,
   item_idItem INT NOT NULL,
   PRIMARY KEY (idpremios, item_idItem),
@@ -166,7 +166,7 @@ CREATE TABLE colecao.contato (
   idcontato INT NOT NULL,
   nome VARCHAR(45) NULL,
   apelido VARCHAR(45) NULL,
-  PRIMARY KEY (idcontato))
+  PRIMARY KEY (idcontato)
 );
 
 
