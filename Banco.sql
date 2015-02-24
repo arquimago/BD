@@ -58,11 +58,12 @@ CREATE TABLE colecao.series (
 );
 
 
+--ESSA TABELA TEM PROBLEMA DE RESTRIÇÃO DE UNICIDADE
 CREATE TABLE colecao.temporadas (
-  series_item_idItem INT NOT NULL,
+  series_item_idItem INT NOT NULL ,
   ano VARCHAR(4) NULL,
-  numero INT NOT NULL,
-  PRIMARY KEY (series_item_idItem),
+  numero INT NOT NULL ,
+  PRIMARY KEY (series_item_idItem,numero),
   FOREIGN KEY (series_item_idItem) REFERENCES colecao.series (item_idItem)
   ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -84,10 +85,9 @@ CREATE TABLE colecao.atores (
 
 
 CREATE TABLE colecao.atua_f (
-  Ator_idAtor INT NOT NULL,
   filmes_item_idItem INT NOT NULL,
   atores_pessoa_idpessoa INT NOT NULL,
-  PRIMARY KEY (Ator_idAtor, filmes_item_idItem, atores_pessoa_idpessoa),
+  PRIMARY KEY (filmes_item_idItem, atores_pessoa_idpessoa),
   FOREIGN KEY (filmes_item_idItem) REFERENCES colecao.filmes (item_idItem)
   ON DELETE SET NULL ON UPDATE CASCADE,
   FOREIGN KEY (atores_pessoa_idpessoa) REFERENCES colecao.atores (pessoa_idpessoa)   
@@ -96,19 +96,16 @@ CREATE TABLE colecao.atua_f (
 
 
 CREATE TABLE colecao.atua_s (
-  temporadas_series_item_idItem INT NOT NULL,
-  Ator_idAtor INT NOT NULL,
+  series_item_idItem INT NOT NULL,
   atores_pessoa_idpessoa INT NOT NULL,
-  PRIMARY KEY (temporadas_series_item_idItem, Ator_idAtor, atores_pessoa_idpessoa),
-  FOREIGN KEY (temporadas_series_item_idItem) REFERENCES colecao.temporadas (series_item_idItem) 
+  PRIMARY KEY (series_item_idItem, atores_pessoa_idpessoa),
+  FOREIGN KEY (series_item_idItem) REFERENCES colecao.series (item_idItem) 
   ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (atores_pessoa_idpessoa) REFERENCES colecao.atores (pessoa_idpessoa)
   ON DELETE SET NULL ON UPDATE CASCADE
 );
 
-
 CREATE TABLE colecao.diretores (
-  nome VARCHAR(45) NULL,
   pessoa_idpessoa INT NOT NULL,
   PRIMARY KEY (pessoa_idpessoa),
   FOREIGN KEY (pessoa_idpessoa) REFERENCES colecao.pessoa (idpessoa)
@@ -117,10 +114,9 @@ CREATE TABLE colecao.diretores (
 
 
 CREATE TABLE colecao.dirige (
-  diretores_iddiretor INT NOT NULL,
   item_idItem INT NOT NULL,
   diretores_pessoa_idpessoa INT NOT NULL,
-  PRIMARY KEY (diretores_iddiretor, item_idItem, diretores_pessoa_idpessoa),
+  PRIMARY KEY (item_idItem, diretores_pessoa_idpessoa),
   FOREIGN KEY (item_idItem) REFERENCES colecao.item (idItem)
   ON DELETE SET NULL ON UPDATE CASCADE,
   FOREIGN KEY (diretores_pessoa_idpessoa) REFERENCES colecao.diretores (pessoa_idpessoa)  
@@ -137,10 +133,9 @@ CREATE TABLE colecao.produtores (
 
 
 CREATE TABLE colecao.produz (
-  produtores_idprodutor INT NOT NULL,
   item_idItem INT NOT NULL,
   produtores_pessoa_idpessoa INT NOT NULL,
-  PRIMARY KEY (produtores_idprodutor, item_idItem, produtores_pessoa_idpessoa),
+  PRIMARY KEY (item_idItem, produtores_pessoa_idpessoa),
   FOREIGN KEY (item_idItem) REFERENCES colecao.item (idItem)
   ON DELETE SET NULL ON UPDATE CASCADE,
   FOREIGN KEY (produtores_pessoa_idpessoa) REFERENCES colecao.produtores (pessoa_idpessoa)
@@ -173,7 +168,7 @@ CREATE TABLE colecao.contato (
 CREATE TABLE colecao.email_contato (
   email VARCHAR(60) NOT NULL,
   contato_idcontato INT NOT NULL,
-  PRIMARY KEY (contato_idcontato),
+  PRIMARY KEY (email, contato_idcontato),
   FOREIGN KEY (contato_idcontato) REFERENCES colecao.contato (idcontato)
   ON DELETE SET NULL ON UPDATE CASCADE
  );
@@ -182,7 +177,7 @@ CREATE TABLE colecao.email_contato (
 CREATE TABLE colecao.telefone_contato (
   telefone VARCHAR(11) NOT NULL,
   contato_idcontato INT NOT NULL,
-  PRIMARY KEY (contato_idcontato),
+  PRIMARY KEY (telefone, contato_idcontato),
   FOREIGN KEY (contato_idcontato) REFERENCES colecao.contato (idcontato)
   ON DELETE SET NULL ON UPDATE CASCADE
 );
